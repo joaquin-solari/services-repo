@@ -7,7 +7,6 @@ spec:
   project: default
   source:
     repoURL: https://github.com/joaquin-solari/service-repo.git
-    path: backend
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd
