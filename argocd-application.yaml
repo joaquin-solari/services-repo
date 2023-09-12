@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/joaquin-solari/service-repo.git
+    path: backend
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    automated:
+      # prune hace que Argo borre los componentes borrados del repo. Si esto estuviese en false y borramos un deployment.yaml del repo, el deployment seguiria existiendo en el cluster
+      prune: true
+        # selfHeal hace que cada vez que haya un cambio manual en el cluster, por ejemplo borrar un pod con kubectl, Argo anule y restaure el cluster a lo que dice el repo
+      selfHeal: true
